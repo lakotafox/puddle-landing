@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { SignedIn, SignedOut } from "@clerk/nextjs"
 import {
   Clock,
   Zap,
@@ -42,25 +41,16 @@ export default function PuddleLanding() {
             </div>
 
             <div className="hidden md:flex items-center space-x-3">
-              <SignedOut>
-                <Link href="/sign-in">
-                  <Button variant="ghost" className="text-white hover:text-blue-400">
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/sign-up">
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                    Get Started
-                  </Button>
-                </Link>
-              </SignedOut>
-              <SignedIn>
-                <Link href="/dashboard">
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                    Dashboard
-                  </Button>
-                </Link>
-              </SignedIn>
+              <Link href="/login">
+                <Button variant="ghost" className="text-white hover:text-blue-400">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  Get Started
+                </Button>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
@@ -81,23 +71,14 @@ export default function PuddleLanding() {
                 <a href="#benefits" className="block px-3 py-2 text-white hover:text-blue-400">
                   Benefits
                 </a>
-                <SignedOut>
-                  <Link href="/sign-in" className="block px-3 py-2 text-white hover:text-blue-400">
-                    Sign In
-                  </Link>
-                  <Link href="/sign-up">
-                    <Button className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white">
-                      Get Started
-                    </Button>
-                  </Link>
-                </SignedOut>
-                <SignedIn>
-                  <Link href="/dashboard">
-                    <Button className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white">
-                      Dashboard
-                    </Button>
-                  </Link>
-                </SignedIn>
+                <Link href="/login" className="block px-3 py-2 text-white hover:text-blue-400">
+                  Sign In
+                </Link>
+                <Link href="/register">
+                  <Button className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white">
+                    Get Started
+                  </Button>
+                </Link>
               </div>
             </div>
           )}
@@ -123,20 +104,11 @@ export default function PuddleLanding() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <SignedOut>
-                  <Link href="/sign-up">
-                    <Button size="lg" className="px-8 py-6 text-lg bg-blue-600 hover:bg-blue-700 text-white">
-                      Get Started <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                  </Link>
-                </SignedOut>
-                <SignedIn>
-                  <Link href="/dashboard">
-                    <Button size="lg" className="px-8 py-6 text-lg bg-blue-600 hover:bg-blue-700 text-white">
-                      Go to Dashboard <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                  </Link>
-                </SignedIn>
+                <Link href="/register">
+                  <Button size="lg" className="px-8 py-6 text-lg bg-blue-600 hover:bg-blue-700 text-white">
+                    Get Started <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -245,26 +217,14 @@ export default function PuddleLanding() {
               <p className="text-xl text-gray-300">
                 Get started in minutes. Your workers will thank you.
               </p>
-              <SignedOut>
-                <Link href="/sign-up">
-                  <Button
-                    size="lg"
-                    className="px-12 py-6 text-xl font-bold bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white shadow-xl transition-all transform hover:scale-105"
-                  >
-                    Get Started Free
-                  </Button>
-                </Link>
-              </SignedOut>
-              <SignedIn>
-                <Link href="/dashboard">
-                  <Button
-                    size="lg"
-                    className="px-12 py-6 text-xl font-bold bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white shadow-xl transition-all transform hover:scale-105"
-                  >
-                    Go to Dashboard
-                  </Button>
-                </Link>
-              </SignedIn>
+              <Link href="/register">
+                <Button
+                  size="lg"
+                  className="px-12 py-6 text-xl font-bold bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white shadow-xl transition-all transform hover:scale-105"
+                >
+                  Get Started Free
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
