@@ -6,9 +6,9 @@ import { AuthProvider } from "@/lib/auth"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Puddle - Real-Time Payroll Platform",
+  title: "Puddle — Get paid the moment you earn it",
   description:
-    "Revolutionary wage streaming platform that gives hourly workers instant access to their earned wages.",
+    "Puddle streams wages to your team in real time. No paydays, no waiting — money that moves the moment work happens.",
 }
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <AuthProvider>{children}</AuthProvider>
       </body>
