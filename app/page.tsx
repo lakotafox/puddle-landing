@@ -14,12 +14,14 @@ import {
   X,
 } from "lucide-react"
 import Link from "next/link"
+import { VersionToggle } from "@/components/VersionToggle"
 
 export default function PuddleLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-background">
+      <VersionToggle />
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-slate-800 border-b border-slate-700">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
