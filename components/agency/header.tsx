@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useOverlay } from "@/lib/agency/overlay-context";
+import { AUTH_LIVE } from "@/lib/agency/config";
 
 const sections = [
   { id: "hero", label: "Home" },
@@ -10,7 +11,7 @@ const sections = [
   { id: "services", label: "Why Puddle" },
   { id: "about", label: "About" },
   { id: "social-proof", label: "Reviews" },
-  { id: "contact", label: "Get Started" },
+  { id: "contact", label: "Contact" },
 ];
 
 const menuItems = [
@@ -19,8 +20,13 @@ const menuItems = [
   { label: "Why Puddle", href: "#services-menu" },
   { label: "About", href: "#about" },
   { label: "Reviews", href: "#social-proof" },
-  { label: "Sign In", href: "/login" },
-  { label: "Get Started", href: "/register" },
+  // Auth entry points — only shown once AUTH_LIVE is flipped on.
+  ...(AUTH_LIVE
+    ? [
+        { label: "Sign In", href: "/login" },
+        { label: "Get Started", href: "/register" },
+      ]
+    : []),
 ];
 
 export function Header() {

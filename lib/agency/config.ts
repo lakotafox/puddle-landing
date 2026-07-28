@@ -41,6 +41,19 @@ export const features = {
 
 /**
  * ============================================================================
+ * AUTH KILL-SWITCH
+ * ============================================================================
+ *
+ * Backend isn't live yet, so every Sign In / Get Started entry point on the
+ * landing is hidden. The /login, /register (with its stepper) and /dashboard
+ * routes still exist and work — there's just no link to them.
+ *
+ * Flip this to `true` when the backend is up to re-enable all of it at once.
+ */
+export const AUTH_LIVE = false;
+
+/**
+ * ============================================================================
  * THEME CONFIGURATION
  * ============================================================================
  *

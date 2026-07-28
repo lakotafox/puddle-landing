@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { AUTH_LIVE } from "@/lib/agency/config";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -25,6 +26,25 @@ function ArrowIcon({ className }: { className?: string }) {
         d="M7 17L17 7M17 7H7M17 7V17"
       />
     </svg>
+  );
+}
+
+// The card arrows point at /register. While auth is hidden they stay as a
+// non-navigating decorative badge; flip AUTH_LIVE and they become links again.
+function CtaArrow() {
+  const className =
+    "w-10 h-10 rounded-full bg-foreground/10 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors";
+  if (AUTH_LIVE) {
+    return (
+      <Link href="/register" className={className}>
+        <ArrowIcon className="w-4 h-4" />
+      </Link>
+    );
+  }
+  return (
+    <div className={className} aria-hidden="true">
+      <ArrowIcon className="w-4 h-4" />
+    </div>
   );
 }
 
@@ -96,12 +116,14 @@ export function SocialProof() {
           <h2 className="text-3xl lg:text-4xl font-medium tracking-tight text-foreground">
             Built for the people who show up
           </h2>
-          <Link
-            href="/register"
-            className="hidden sm:inline-flex items-center justify-center px-6 py-3 rounded-full bg-foreground text-background text-sm font-medium transition-opacity hover:opacity-80"
-          >
-            Get Started
-          </Link>
+          {AUTH_LIVE && (
+            <Link
+              href="/register"
+              className="hidden sm:inline-flex items-center justify-center px-6 py-3 rounded-full bg-foreground text-background text-sm font-medium transition-opacity hover:opacity-80"
+            >
+              Get Started
+            </Link>
+          )}
         </div>
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:grid-rows-[minmax(220px,auto)_minmax(220px,auto)_minmax(180px,auto)]">
@@ -137,12 +159,7 @@ export function SocialProof() {
             </div>
             <div className="flex items-center justify-between mt-auto pt-8">
               <span className="text-xl font-semibold text-foreground">early pilot</span>
-              <Link
-                href="/register"
-                className="w-10 h-10 rounded-full bg-foreground/10 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
-              >
-                <ArrowIcon className="w-4 h-4" />
-              </Link>
+              <CtaArrow />
             </div>
           </div>
 
@@ -153,12 +170,7 @@ export function SocialProof() {
             </div>
             <div className="flex items-center justify-between mt-auto pt-4">
               <span className="text-sm font-medium text-foreground">instant</span>
-              <Link
-                href="/register"
-                className="w-10 h-10 rounded-full bg-foreground/10 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
-              >
-                <ArrowIcon className="w-4 h-4" />
-              </Link>
+              <CtaArrow />
             </div>
           </div>
 
@@ -169,12 +181,7 @@ export function SocialProof() {
             </div>
             <div className="flex items-center justify-between mt-auto pt-4">
               <span className="text-sm font-medium text-foreground">nonstop</span>
-              <Link
-                href="/register"
-                className="w-10 h-10 rounded-full bg-foreground/10 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
-              >
-                <ArrowIcon className="w-4 h-4" />
-              </Link>
+              <CtaArrow />
             </div>
           </div>
 
@@ -196,12 +203,7 @@ export function SocialProof() {
             </p>
             <div className="flex items-center justify-between mt-auto pt-6">
               <span className="text-xl font-semibold text-foreground">Less turnover</span>
-              <Link
-                href="/register"
-                className="w-10 h-10 rounded-full bg-foreground/10 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
-              >
-                <ArrowIcon className="w-4 h-4" />
-              </Link>
+              <CtaArrow />
             </div>
           </div>
         </div>

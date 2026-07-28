@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { AUTH_LIVE } from "@/lib/agency/config";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -91,13 +92,15 @@ export function About() {
           At Puddle, we think a two-week wait for money you already earned is a relic. So we made payday every second.
         </h2>
 
-        <Link
-          ref={ctaRef}
-          href="/register"
-          className="inline-flex items-center justify-center mt-8 px-6 py-3 rounded-full bg-foreground text-background text-lg tracking-tight font-medium transition-opacity hover:opacity-80"
-        >
-          Get started
-        </Link>
+        {AUTH_LIVE && (
+          <Link
+            ref={ctaRef}
+            href="/register"
+            className="inline-flex items-center justify-center mt-8 px-6 py-3 rounded-full bg-foreground text-background text-lg tracking-tight font-medium transition-opacity hover:opacity-80"
+          >
+            Get started
+          </Link>
+        )}
       </div>
     </section>
   );
