@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useLayoutEffect, useState } from "react";
-import { useOverlay } from "@/lib/agency/overlay-context";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -12,77 +11,11 @@ import {
   useMotionValue,
   useVelocity,
   useAnimationFrame,
-  AnimatePresence,
 } from "motion/react";
 import { WaterRipple } from "./water-ripple";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
-}
-
-function BlobCursor({ isVisible }: { isVisible: boolean }) {
-  const blobRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const smoothX = useSpring(mouseX, { damping: 30, stiffness: 400, mass: 0.2 });
-  const smoothY = useSpring(mouseY, { damping: 30, stiffness: 400, mass: 0.2 });
-  const velocityX = useVelocity(smoothX);
-  const velocityY = useVelocity(smoothY);
-
-  const speed = useTransform(() => Math.sqrt(velocityX.get() ** 2 + velocityY.get() ** 2));
-  const scaleAlongMotion = useTransform(speed, [0, 800, 2000], [1, 1.3, 1.6]);
-  const scalePerp = useTransform(speed, [0, 800, 2000], [1, 0.8, 0.65]);
-  const rotate = useTransform(() => Math.atan2(velocityY.get(), velocityX.get()) * (180 / Math.PI));
-
-  useEffect(() => {
-    let rafId: number | null = null;
-    let lastX = 0, lastY = 0;
-    const handleMouseMove = (e: MouseEvent) => {
-      lastX = e.clientX;
-      lastY = e.clientY;
-      if (rafId === null) {
-        rafId = requestAnimationFrame(() => {
-          mouseX.set(lastX);
-          mouseY.set(lastY);
-          rafId = null;
-        });
-      }
-    };
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      if (rafId !== null) cancelAnimationFrame(rafId);
-    };
-  }, [mouseX, mouseY]);
-
-  return (
-    <motion.div
-      ref={blobRef}
-      className="pointer-events-none fixed z-50 flex items-center justify-center"
-      style={{ left: smoothX, top: smoothY, x: "-50%", y: "-50%" }}
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0 }}
-      transition={{ opacity: { duration: 0.3, ease: "easeOut" }, scale: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] } }}
-    >
-      <motion.div style={{ rotate }}>
-        <motion.div
-          className="flex h-20 w-20 items-center justify-center rounded-full bg-foreground"
-          style={{ scaleX: scaleAlongMotion, scaleY: scalePerp }}
-        >
-          <motion.span
-            className="text-sm font-medium uppercase tracking-wide text-background"
-            style={{
-              rotate: useTransform(rotate, (r) => -r),
-              scaleX: useTransform(scaleAlongMotion, (s) => 1 / s),
-              scaleY: useTransform(scalePerp, (s) => 1 / s),
-            }}
-          >
-            Open
-          </motion.span>
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  );
 }
 
 function useElementWidth<T extends HTMLElement>(ref: React.RefObject<T | null>): number {
@@ -148,70 +81,7 @@ const projects: Project[] = [
   { id: "3", titleUp: "Cash out", titleDown: "Anytime", image: "/img/puddle-3.webp", description: "Tap to take home what's already earned — any hour, any day. Payday stops being a date on the calendar." },
 ];
 
-function ProjectOverlay({ project, onClose }: { project: Project | null; onClose: () => void }) {
-  useEffect(() => {
-    document.body.style.overflow = project ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [project]);
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [onClose]);
-
-  return (
-    <AnimatePresence>
-      {project && (
-        <motion.div className="fixed inset-0 z-100" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-          <motion.div
-            className="absolute inset-0"
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 1.05 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={project.image} alt={`${project.titleUp} ${project.titleDown}`} className="h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-black/40" />
-          </motion.div>
-          <motion.div
-            className="absolute left-4 top-4 z-10 sm:left-6 sm:top-6 md:left-12 md:top-12 lg:left-16 lg:top-16"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.4, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <h2 className="text-[clamp(2rem,8vw,6rem)] font-medium leading-[0.95] tracking-tight text-white">
-              <span className="block">{project.titleUp}</span>
-              <span className="block font-serif italic">{project.titleDown}</span>
-            </h2>
-          </motion.div>
-          <motion.div
-            className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6 md:right-12 md:top-12 lg:right-16 lg:top-16"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-          >
-            <button
-              onClick={onClose}
-              className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-all hover:bg-white/30 hover:scale-110 active:scale-95 md:h-14 md:w-14"
-              aria-label="Close overlay"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function ProjectItem({ project, index, onHover, onClick }: { project: Project; index: number; onHover: (isHovering: boolean) => void; onClick: () => void }) {
+function ProjectItem({ project, index }: { project: Project; index: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
@@ -231,6 +101,7 @@ function ProjectItem({ project, index, onHover, onClick }: { project: Project; i
     scaleTo.current = gsap.quickTo(canvasWrapperRef.current, "scale", { duration: 0.6, ease: "power2.out" });
   }, []);
 
+  // Desktop: subtle parallax as the cursor drifts across the bubble.
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = imageContainerRef.current?.getBoundingClientRect();
     if (!rect || !xTo.current || !yTo.current) return;
@@ -240,8 +111,8 @@ function ProjectItem({ project, index, onHover, onClick }: { project: Project; i
     yTo.current(-y * 30);
   };
 
-  const handleMouseEnter = () => { onHover(true); scaleTo.current?.(1.22); };
-  const handleMouseLeave = () => { onHover(false); xTo.current?.(0); yTo.current?.(0); scaleTo.current?.(1.15); };
+  const handleMouseEnter = () => scaleTo.current?.(1.22);
+  const handleMouseLeave = () => { xTo.current?.(0); yTo.current?.(0); scaleTo.current?.(1.15); };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -272,18 +143,13 @@ function ProjectItem({ project, index, onHover, onClick }: { project: Project; i
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="group cursor-pointer py-16 md:py-24"
-      onClick={onClick}
-      onMouseEnter={() => onHover(true)}
-      onMouseLeave={() => onHover(false)}
-    >
+    <div ref={containerRef} className="group py-16 md:py-24">
       <div className="mx-auto max-w-360 px-6 sm:px-12 lg:px-24 2xl:max-w-450 3xl:max-w-550">
         <div className={`flex flex-col gap-8 ${isEven ? "md:flex-row" : "md:flex-row-reverse"} md:items-center md:gap-16`}>
           <div
             ref={imageContainerRef}
             className="relative aspect-4/3 w-full overflow-hidden rounded-full md:w-3/5"
+            style={{ touchAction: "pan-y" }}
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -313,25 +179,8 @@ function ProjectItem({ project, index, onHover, onClick }: { project: Project; i
 }
 
 export function Projects() {
-  const [isCursorVisible, setIsCursorVisible] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const { setIsOverlayOpen } = useOverlay();
-
-  const handleProjectClick = (project: Project) => {
-    setIsCursorVisible(false);
-    setSelectedProject(project);
-    setIsOverlayOpen(true);
-  };
-
-  const handleClose = () => {
-    setSelectedProject(null);
-    setIsOverlayOpen(false);
-  };
-
   return (
     <section id="projects" className="projects bg-background relative py-24">
-      <BlobCursor isVisible={isCursorVisible} />
-      <ProjectOverlay project={selectedProject} onClose={handleClose} />
       <div className="pb-16">
         <VelocityText baseVelocity={80} className="text-[clamp(4rem,12vw,14rem)] font-medium italic tracking-tight text-foreground uppercase px-8">
           Streaming <span className="font-serif font-thin">Wages</span>&nbsp;
@@ -339,7 +188,7 @@ export function Projects() {
       </div>
       <div className="flex flex-col">
         {projects.map((project, index) => (
-          <ProjectItem key={project.id} project={project} index={index} onHover={setIsCursorVisible} onClick={() => handleProjectClick(project)} />
+          <ProjectItem key={project.id} project={project} index={index} />
         ))}
       </div>
     </section>

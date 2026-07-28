@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useMemo, useSyncExternalStore } from "react";
+import { useRef, useEffect, useMemo, useCallback, useSyncExternalStore } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
@@ -110,6 +110,20 @@ function WaterRippleScene({ src, maskRadius }: { src: string; maskRadius: number
   const imageTextureRef = useRef(imageTexture);
   const sizeRef = useRef(size);
   const maskRadiusRef = useRef(maskRadius);
+  const holdRef = useRef({ active: false, x: 0, y: 0 });
+  const holdFrameRef = useRef(0);
+
+  // Drop a single ripple at a local canvas coordinate.
+  const spawnRipple = useCallback((x: number, y: number, scale = 1.5) => {
+    currentWave.current = (currentWave.current + 1) % MAX_RIPPLES;
+    const r = ripplesRef.current[currentWave.current];
+    if (r) {
+      r.mesh.position.set(x, y, 0);
+      r.mesh.visible = true;
+      r.material.opacity = 1;
+      r.mesh.scale.setScalar(scale);
+    }
+  }, []);
 
   useEffect(() => {
     if (initializedRef.current) return;
@@ -164,25 +178,48 @@ function WaterRippleScene({ src, maskRadius }: { src: string; maskRadius: number
 
   useEffect(() => {
     const canvas = gl.domElement;
-    const onMove = (e: PointerEvent) => {
+    const toLocal = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = -(e.clientY - rect.top - rect.height / 2);
+      return {
+        x: e.clientX - rect.left - rect.width / 2,
+        y: -(e.clientY - rect.top - rect.height / 2),
+      };
+    };
+    // Moving / swiping across the bubble streams ripples along the path.
+    const onMove = (e: PointerEvent) => {
+      const { x, y } = toLocal(e);
+      if (holdRef.current.active) {
+        holdRef.current.x = x;
+        holdRef.current.y = y;
+      }
       if (Math.abs(x - prevMouse.current.x) > 4 || Math.abs(y - prevMouse.current.y) > 4) {
-        currentWave.current = (currentWave.current + 1) % MAX_RIPPLES;
-        const r = ripplesRef.current[currentWave.current];
-        if (r) {
-          r.mesh.position.set(x, y, 0);
-          r.mesh.visible = true;
-          r.material.opacity = 1;
-          r.mesh.scale.setScalar(1.5);
-        }
+        spawnRipple(x, y);
         prevMouse.current.set(x, y);
       }
     };
+    // Press / tap-and-hold: keep distorting at the held point (see useFrame).
+    const onDown = (e: PointerEvent) => {
+      const { x, y } = toLocal(e);
+      holdRef.current = { active: true, x, y };
+      holdFrameRef.current = 0;
+      spawnRipple(x, y, 2.2);
+    };
+    const onRelease = () => {
+      holdRef.current.active = false;
+    };
     canvas.addEventListener("pointermove", onMove);
-    return () => canvas.removeEventListener("pointermove", onMove);
-  }, [gl]);
+    canvas.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointerup", onRelease);
+    canvas.addEventListener("pointercancel", onRelease);
+    canvas.addEventListener("pointerleave", onRelease);
+    return () => {
+      canvas.removeEventListener("pointermove", onMove);
+      canvas.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onRelease);
+      canvas.removeEventListener("pointercancel", onRelease);
+      canvas.removeEventListener("pointerleave", onRelease);
+    };
+  }, [gl, spawnRipple]);
 
   useEffect(() => { imageTextureRef.current = imageTexture; }, [imageTexture]);
   useEffect(() => { sizeRef.current = size; }, [size]);
@@ -220,6 +257,17 @@ function WaterRippleScene({ src, maskRadius }: { src: string; maskRadius: number
         if (material.opacity < 0.002) mesh.visible = false;
       }
     });
+
+    // While pressed/held, keep spawning jittered ripples so the distortion
+    // lasts as long as the finger stays down (tap-and-hold to bubble forever).
+    if (holdRef.current.active) {
+      holdFrameRef.current += 1;
+      if (holdFrameRef.current % 2 === 0) {
+        const jx = (Math.random() - 0.5) * 26;
+        const jy = (Math.random() - 0.5) * 26;
+        spawnRipple(holdRef.current.x + jx, holdRef.current.y + jy, 1.4);
+      }
+    }
 
     const prev = gl.getRenderTarget();
     gl.setRenderTarget(fbo);
@@ -273,7 +321,7 @@ export function WaterRipple({ src, maskRadius }: { src: string; maskRadius: numb
         <Canvas
           dpr={1}
           gl={{ antialias: false, alpha: true, powerPreference: "high-performance", stencil: false, depth: false }}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "100%", touchAction: "pan-y" }}
           frameloop="always"
         >
           <WaterRippleScene src={src} maskRadius={maskRadius} />
