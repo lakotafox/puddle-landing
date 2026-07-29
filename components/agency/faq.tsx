@@ -10,7 +10,7 @@ if (typeof window !== "undefined") {
 
 const faqs = [
   {
-    question: "How does Puddle work?",
+    question: "How does Puddl3 work?",
     answer: "Your team clocks in and their wages start accumulating in real time. Instead of waiting for a pay cycle, workers can see what they've earned and take it home whenever they want. Payroll runs itself in the background.",
   },
   {
@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     question: "Does it cost employers anything?",
-    answer: "Offering instant pay costs you nothing extra. Puddle turns payroll from a burden into a benefit you can give your team — one that helps you attract and keep good people without adding to your bill.",
+    answer: "Offering instant pay costs you nothing extra. Puddl3 turns payroll from a burden into a benefit you can give your team — one that helps you attract and keep good people without adding to your bill.",
   },
   {
     question: "Why does instant pay matter to my team?",

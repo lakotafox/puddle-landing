@@ -344,7 +344,7 @@ export function Hero({ startColors, endColors }: HeroProps = {}) {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: [0.25, 1, 0.5, 1], delay: 1.2 }}
         >
-          Puddle streams wages to your team in real time. No paydays, no
+          Puddl3 streams wages to your team in real time. No paydays, no
           waiting — money that moves the moment work happens.
         </motion.p>
       </div>

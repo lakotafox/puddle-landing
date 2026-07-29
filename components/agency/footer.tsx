@@ -18,13 +18,13 @@ export function Footer() {
       <div className="px-6 sm:px-12 lg:px-24 py-16 lg:py-24 max-w-360 2xl:max-w-450 3xl:max-w-550 mx-auto">
         <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-8">
           <div>
-            <span className="text-4xl font-medium tracking-tight">puddl3</span>
+            <span className="text-4xl font-medium tracking-tight">Puddl3</span>
             <p className="mt-4 text-background/60 text-4xl">Payday, every second.</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-16 lg:gap-24">
             <div>
-              <h4 className="text-sm font-medium text-background/60 mb-6">Why Puddle</h4>
+              <h4 className="text-sm font-medium text-background/60 mb-6">Why Puddl3</h4>
               <div className="mb-6">
                 <p className="font-medium mb-1">Instant access</p>
                 <p className="text-background/60 text-sm">Earned wages, any moment</p>

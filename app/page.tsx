@@ -11,9 +11,9 @@ import { Faq } from "@/components/agency/faq";
 import { Footer } from "@/components/agency/footer";
 
 export const metadata: Metadata = {
-  title: "Puddle — Get paid the moment you earn it",
+  title: "Puddl3 — Get paid the moment you earn it",
   description:
-    "Puddle streams wages to your team in real time. No paydays, no waiting — money that moves the moment work happens.",
+    "Puddl3 streams wages to your team in real time. No paydays, no waiting — money that moves the moment work happens.",
 };
 
 // Dark-blue / light-blue / purple palette, scoped to the landing.

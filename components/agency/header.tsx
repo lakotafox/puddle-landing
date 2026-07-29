@@ -8,7 +8,7 @@ import { AUTH_LIVE } from "@/lib/agency/config";
 const sections = [
   { id: "hero", label: "Home" },
   { id: "projects", label: "How it works" },
-  { id: "services", label: "Why Puddle" },
+  { id: "services", label: "Why Puddl3" },
   { id: "about", label: "About" },
   { id: "social-proof", label: "Reviews" },
   { id: "contact", label: "Contact" },
@@ -17,7 +17,7 @@ const sections = [
 const menuItems = [
   { label: "Home", href: "#" },
   { label: "How it works", href: "#projects" },
-  { label: "Why Puddle", href: "#services-menu" },
+  { label: "Why Puddl3", href: "#services-menu" },
   { label: "About", href: "#about" },
   { label: "Reviews", href: "#social-proof" },
   // Auth entry points — only shown once AUTH_LIVE is flipped on.
@@ -95,7 +95,7 @@ export function Header() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          puddl3
+          Puddl3
         </motion.a>
 
         <div className="relative h-12 sm:h-16">

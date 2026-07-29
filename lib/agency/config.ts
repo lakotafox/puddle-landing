@@ -11,7 +11,7 @@ export const siteConfig = {
   name: "Puddl3",
   tagline: "Payday, every second.",
   description:
-    "Puddle streams wages to your team in real time. No paydays, no waiting — money that moves the moment work happens.",
+    "Puddl3 streams wages to your team in real time. No paydays, no waiting — money that moves the moment work happens.",
   url: "https://puddl3.xyz",
   twitter: "@puddl3",
 

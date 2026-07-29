@@ -89,7 +89,7 @@ export function About() {
         </div>
 
         <h2 ref={headingRef} className="text-[clamp(1.75rem,4vw,3rem)] font-medium leading-[1.2] tracking-tight text-center mx-auto text-foreground max-w-4xl">
-          At Puddle, we think a two-week wait for money you already earned is a relic. So we made payday every second.
+          At Puddl3, we think a two-week wait for money you already earned is a relic. So we made payday every second.
         </h2>
 
         {AUTH_LIVE && (
