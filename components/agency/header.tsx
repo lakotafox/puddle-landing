@@ -85,19 +85,7 @@ export function Header() {
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="fixed top-0 left-0 right-0 z-50 px-4 py-6 sm:px-12 sm:py-12 lg:px-24"
         >
-      <div className="mx-auto flex max-w-360 items-center justify-between gap-4 2xl:max-w-450 3xl:max-w-550">
-        <motion.a
-          href="/"
-          className="flex h-12 sm:h-16 font-medium tracking-tight text-base sm:text-xl items-center justify-center rounded-xl sm:rounded-2xl text-white bg-neutral-900/70 backdrop-blur-lg px-4 sm:px-5 shadow-lg shrink-0"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Puddl3
-        </motion.a>
-
+      <div className="mx-auto flex max-w-360 items-center justify-end gap-4 2xl:max-w-450 3xl:max-w-550">
         <div className="relative h-12 sm:h-16">
           <motion.div
             className="absolute top-0 right-0 w-48 sm:w-60 bg-neutral-900/70 backdrop-blur-lg rounded-xl sm:rounded-2xl shadow-lg overflow-hidden"
