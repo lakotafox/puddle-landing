@@ -127,8 +127,10 @@ export function SocialProof() {
         </div>
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:grid-rows-[minmax(220px,auto)_minmax(220px,auto)_minmax(180px,auto)]">
-          <div className="row-span-2 flex flex-col gap-4">
-            <div className="relative aspect-4/3 lg:aspect-auto lg:flex-1 w-full overflow-hidden rounded-2xl">
+          {/* Mobile: a small centered thumbnail pair tucked under the heading.
+              Desktop (lg+): the original tall stacked column filling the grid. */}
+          <div className="row-span-2 flex flex-row justify-center gap-3 lg:flex-col lg:gap-4">
+            <div className="relative h-24 w-32 lg:h-auto lg:w-full lg:flex-1 overflow-hidden rounded-xl lg:rounded-2xl">
               <Image
                 src="/img/puddle-1.webp"
                 alt="Splashing in a puddle"
@@ -136,7 +138,7 @@ export function SocialProof() {
                 className="object-cover"
               />
             </div>
-            <div className="relative aspect-square lg:aspect-auto lg:flex-1 w-full overflow-hidden rounded-full">
+            <div className="relative h-24 w-24 lg:h-auto lg:w-full lg:flex-1 overflow-hidden rounded-full">
               <Image
                 src="/img/puddle-3.webp"
                 alt="Splashing in a puddle"
