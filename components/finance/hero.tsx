@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { useTheme } from "next-themes";
 import { ChevronRight, Shield } from "lucide-react";
 import { motion } from "motion/react";
 import * as THREE from "three";
@@ -19,6 +20,7 @@ const fragmentShader = `
   uniform float iTime;
   uniform vec2 iResolution;
   uniform vec2 iMouse;
+  uniform float isDark;
   varying vec2 vUv;
 
   #define PI 3.141592654
@@ -113,33 +115,60 @@ const fragmentShader = `
     float light2 = smoothstep(0.0, 0.7, beam2 * verticalFade);
     float light3 = smoothstep(0.0, 0.6, beam3 * verticalFade2);
     
-    // Colors - warm to cool spectrum
-    vec3 orange = vec3(0.95, 0.4, 0.1);
-    vec3 red = vec3(0.85, 0.15, 0.2);
-    vec3 pink = vec3(0.7, 0.2, 0.4);
-    vec3 blue = vec3(0.1, 0.3, 0.7);
-    vec3 cyan = vec3(0.1, 0.6, 0.8);
+    // Puddl3 spectrum: purple-blue on the left sweeping through blue to the
+    // brand cyan on the right. violet/indigo are #6b3de6 and #7c5cff; cyan is
+    // #2FD8E8, the company blue.
+    vec3 violet = vec3(0.42, 0.24, 0.90);
+    vec3 indigo = vec3(0.486, 0.361, 1.0);
+    vec3 azure = vec3(0.20, 0.42, 0.95);
+    vec3 blue = vec3(0.10, 0.45, 0.85);
+    vec3 cyan = vec3(0.184, 0.847, 0.910);
     
     // Position-based color mixing
     float xPos = uv.x / (iResolution.x / iResolution.y);
-    
-    // Layer the colors
-    col += orange * light1 * 0.6 * smoothstep(0.6, 0.2, xPos);
-    col += red * light1 * 0.5 * smoothstep(0.3, 0.5, xPos) * smoothstep(0.7, 0.5, xPos);
-    col += pink * light2 * 0.4 * smoothstep(0.4, 0.6, xPos);
-    col += blue * light3 * 0.5 * smoothstep(0.5, 0.8, xPos);
-    col += cyan * light2 * 0.3 * smoothstep(0.7, 1.0, xPos);
-    
-    // Add subtle glow at bottom center
+
     float centerGlow = exp(-pow((xPos - 0.5) * 2.0, 2.0)) * verticalFade2;
-    col += vec3(0.9, 0.5, 0.3) * centerGlow * 0.3;
-    
-    // Slight vignette
-    float vignette = 1.0 - pow(length(uv - vec2(0.5 * iResolution.x / iResolution.y, 0.5)) * 0.8, 2.0);
-    col *= max(vignette, 0.3);
-    
-    // Tone mapping
-    col = pow(col, vec3(0.9));
+
+    if (isDark > 0.5) {
+      // Layer the colors
+      col += violet * light1 * 0.6 * smoothstep(0.6, 0.2, xPos);
+      col += indigo * light1 * 0.5 * smoothstep(0.3, 0.5, xPos) * smoothstep(0.7, 0.5, xPos);
+      col += azure * light2 * 0.4 * smoothstep(0.4, 0.6, xPos);
+      col += blue * light3 * 0.5 * smoothstep(0.5, 0.8, xPos);
+      col += cyan * light2 * 0.3 * smoothstep(0.7, 1.0, xPos);
+
+      // Add subtle glow at bottom center
+      col += vec3(0.35, 0.45, 0.95) * centerGlow * 0.3;
+
+      // Slight vignette
+      float vignette = 1.0 - pow(length(uv - vec2(0.5 * iResolution.x / iResolution.y, 0.5)) * 0.8, 2.0);
+      col *= max(vignette, 0.3);
+
+      // Tone mapping
+      col = pow(col, vec3(0.9));
+    } else {
+      // Light mode: the same purple-blue → cyan sweep as soft pastel wash on
+      // white, so the hero sits on the page instead of punching a dark hole in
+      // it. Mirrors the treatment in final-cta.tsx.
+      col = vec3(1.0, 1.0, 1.0);
+
+      vec3 pViolet = vec3(0.80, 0.77, 0.98);
+      vec3 pIndigo = vec3(0.76, 0.78, 0.99);
+      vec3 pBlue   = vec3(0.74, 0.86, 0.99);
+      vec3 pCyan   = vec3(0.72, 0.94, 0.98);
+
+      vec3 wash = mix(pViolet, pIndigo, smoothstep(0.2, 0.5, xPos));
+      wash = mix(wash, pBlue, smoothstep(0.45, 0.75, xPos));
+      wash = mix(wash, pCyan, smoothstep(0.7, 1.0, xPos));
+
+      float intensity = light1 * 0.5 + light2 * 0.35 + light3 * 0.25 + centerGlow * 0.5;
+      intensity = smoothstep(0.0, 1.0, intensity);
+
+      col = mix(col, wash, clamp(intensity, 0.0, 1.0) * 0.85);
+
+      // Fade back to white toward the top so the nav and headline stay clean
+      col = mix(vec3(1.0), col, pow(1.0 - uv.y, 0.9));
+    }
     
     gl_FragColor = vec4(col, 1.0);
   }
@@ -149,6 +178,8 @@ export function Hero(): ReactNode {
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const frameIdRef = useRef<number>(0);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme !== "light";
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -170,6 +201,7 @@ export function Hero(): ReactNode {
       iTime: { value: 0 },
       iResolution: { value: new THREE.Vector2(width, height) },
       iMouse: { value: new THREE.Vector2(0.5, 0.5) },
+      isDark: { value: isDark ? 1.0 : 0.0 },
     };
 
     const material = new THREE.ShaderMaterial({
@@ -221,7 +253,9 @@ export function Hero(): ReactNode {
       material.dispose();
       container.removeChild(renderer.domElement);
     };
-  }, []);
+    // Rebuilt on theme change so the shader picks up the new isDark branch,
+    // same as final-cta.tsx does.
+  }, [isDark]);
 
   return (
     <section className="relative min-h-dvh w-full overflow-hidden">

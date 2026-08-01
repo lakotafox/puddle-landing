@@ -106,18 +106,19 @@ const fragmentShader = `
       // Dark mode - original dark aurora effect
       col = vec3(0.02, 0.02, 0.06);
       
-      vec3 orange = vec3(0.95, 0.4, 0.1);
-      vec3 red = vec3(0.85, 0.15, 0.2);
-      vec3 pink = vec3(0.7, 0.2, 0.4);
-      vec3 blue = vec3(0.1, 0.3, 0.7);
-      vec3 cyan = vec3(0.1, 0.6, 0.8);
-      
-      col += orange * light1 * 0.6 * smoothstep(0.6, 0.2, xPos);
-      col += red * light1 * 0.5 * smoothstep(0.3, 0.5, xPos) * smoothstep(0.7, 0.5, xPos);
-      col += pink * light2 * 0.4 * smoothstep(0.4, 0.6, xPos);
+      // Same Puddl3 purple-blue → cyan sweep as the hero; keep the two in sync.
+      vec3 violet = vec3(0.42, 0.24, 0.90);
+      vec3 indigo = vec3(0.486, 0.361, 1.0);
+      vec3 azure = vec3(0.20, 0.42, 0.95);
+      vec3 blue = vec3(0.10, 0.45, 0.85);
+      vec3 cyan = vec3(0.184, 0.847, 0.910);
+
+      col += violet * light1 * 0.6 * smoothstep(0.6, 0.2, xPos);
+      col += indigo * light1 * 0.5 * smoothstep(0.3, 0.5, xPos) * smoothstep(0.7, 0.5, xPos);
+      col += azure * light2 * 0.4 * smoothstep(0.4, 0.6, xPos);
       col += blue * light3 * 0.5 * smoothstep(0.5, 0.8, xPos);
       col += cyan * light2 * 0.3 * smoothstep(0.7, 1.0, xPos);
-      col += vec3(0.9, 0.5, 0.3) * centerGlow * 0.3;
+      col += vec3(0.35, 0.45, 0.95) * centerGlow * 0.3;
       
       // Slight vignette
       float vignette = 1.0 - pow(length(uv - vec2(0.5 * iResolution.x / iResolution.y, 0.5)) * 0.8, 2.0);
@@ -127,11 +128,11 @@ const fragmentShader = `
       // Light mode - soft pastel gradient on white
       col = vec3(0.98, 0.98, 0.97);
       
-      // Softer, more pastel colors for light mode
-      vec3 peach = vec3(1.0, 0.85, 0.75);
-      vec3 salmon = vec3(1.0, 0.75, 0.7);
-      vec3 lavender = vec3(0.85, 0.75, 0.95);
-      vec3 skyBlue = vec3(0.75, 0.85, 1.0);
+      // Pastel run of the same purple-blue → cyan sweep, lifted for white ground
+      vec3 peach = vec3(0.82, 0.79, 0.98);
+      vec3 salmon = vec3(0.78, 0.76, 0.99);
+      vec3 lavender = vec3(0.80, 0.82, 0.99);
+      vec3 skyBlue = vec3(0.73, 0.93, 0.98);
       
       // Create a soft diffused blob effect
       float blobIntensity = light1 * 0.5 + light2 * 0.3 + centerGlow * 0.8;
