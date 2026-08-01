@@ -25,7 +25,7 @@ const puddleTheme = {
   ["--muted" as string]: "#121d38",
   ["--muted-foreground" as string]: "#93a3c4",
   ["--border" as string]: "#1e2b47",
-  ["--ring" as string]: "#3b82f6",
+  ["--ring" as string]: "#2FD8E8",
 } as React.CSSProperties;
 
 export default function HomePage(): ReactNode {

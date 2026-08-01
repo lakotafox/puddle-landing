@@ -131,8 +131,8 @@ interface ShaderPlaneProps {
 function ShaderPlane({ isDark, startColors, endColors }: ShaderPlaneProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const { size, gl } = useThree();
-  const defaultStart = { color1: "#3B82F6", color2: "#6D28D9", color3: "#38BDF8" };
-  const defaultEnd = { color1: "#1D4ED8", color2: "#8B5CF6", color3: "#22D3EE" };
+  const defaultStart = { color1: "#2FD8E8", color2: "#6D28D9", color3: "#1FA8B8" };
+  const defaultEnd = { color1: "#0B7A88", color2: "#8B5CF6", color3: "#2FD8E8" };
 
   const uniforms = useMemo(
     () => ({
@@ -252,15 +252,15 @@ export interface HeroProps {
 }
 
 const defaultStartColors = {
-  color1: "#3B82F6",
+  color1: "#2FD8E8",
   color2: "#6D28D9",
-  color3: "#38BDF8",
+  color3: "#1FA8B8",
 };
 
 const defaultEndColors = {
-  color1: "#1D4ED8",
+  color1: "#0B7A88",
   color2: "#8B5CF6",
-  color3: "#22D3EE",
+  color3: "#2FD8E8",
 };
 
 export function Hero({ startColors, endColors }: HeroProps = {}) {
