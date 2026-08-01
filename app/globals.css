@@ -125,6 +125,58 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Landing palettes.
+
+   Both designs style themselves off the same six token names, so each scopes
+   its own palette on its own wrapper (.theme-agency / .theme-finance) and they
+   never collide. next-themes puts .dark on <html>, so the dark palette is the
+   `.dark &` branch — these must stay in CSS rather than inline styles on the
+   wrapper, or the inline values would win and light mode would do nothing.
+
+   #2FD8E8 is the brand cyan and is only legible on dark ground; light mode uses
+   #0B7A88, the same hue darkened, matching what the mobile app already does.
+--------------------------------------------------------------------------- */
+.theme-agency {
+  --background: #f3f7ff;
+  --foreground: #0a1024;
+  --muted: #e3ebfa;
+  --muted-foreground: #4d5c7d;
+  --border: #ccd9f0;
+  --accent: #0b7a88;
+  --ring: #0b7a88;
+}
+
+.dark .theme-agency {
+  --background: #070b18;
+  --foreground: #eef2fb;
+  --muted: #121d38;
+  --muted-foreground: #93a3c4;
+  --border: #1e2b47;
+  --accent: #2fd8e8;
+  --ring: #2fd8e8;
+}
+
+.theme-finance {
+  --background: #ffffff;
+  --foreground: #0a0a12;
+  --muted: #f1f5fa;
+  --muted-foreground: #5b6880;
+  --border: #e1e8f2;
+  --accent: #0b7a88;
+  --ring: #0b7a88;
+}
+
+.dark .theme-finance {
+  --background: #070712;
+  --foreground: #fafafa;
+  --muted: #0f1420;
+  --muted-foreground: #9aa7bd;
+  --border: #1e2635;
+  --accent: #2fd8e8;
+  --ring: #2fd8e8;
+}
+
 /* Custom animations and styles for Puddle landing page */
 @keyframes wave {
   0%,

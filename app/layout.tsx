@@ -5,7 +5,7 @@ import { GeistMono } from "geist/font/mono"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Puddl3 — Get paid the moment you earn it",
+  title: "Puddl3 — Payday, every day",
   description:
     "Puddl3 streams wages to your team in real time. No paydays, no waiting — money that moves the moment work happens.",
 }

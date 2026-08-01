@@ -311,7 +311,7 @@ export function Hero({ startColors, endColors }: HeroProps = {}) {
               transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
               style={{ transformOrigin: "center bottom", transformStyle: "preserve-3d" }}
             >
-              Get paid the
+              Payday,
             </motion.span>
           </span>
           <span className="block overflow-hidden pb-[0.1em]">
@@ -322,18 +322,7 @@ export function Hero({ startColors, endColors }: HeroProps = {}) {
               transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
               style={{ transformOrigin: "center bottom", transformStyle: "preserve-3d" }}
             >
-              moment you
-            </motion.span>
-          </span>
-          <span className="block overflow-hidden pb-[0.1em]">
-            <motion.span
-              className="block"
-              initial={{ y: "120%", rotateX: -90, z: -200, opacity: 0 }}
-              animate={{ y: 0, rotateX: 0, z: 0, opacity: 1 }}
-              transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.7 }}
-              style={{ transformOrigin: "center bottom", transformStyle: "preserve-3d" }}
-            >
-              <em className="font-serif">earn it.</em>
+              <em className="font-serif">every day.</em>
             </motion.span>
           </span>
         </h1>
