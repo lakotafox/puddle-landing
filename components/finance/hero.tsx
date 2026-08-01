@@ -271,42 +271,42 @@ export function Hero(): ReactNode {
           transition={{ duration: 1.2, delay: 0.3, ease }}
           className="relative w-full max-w-270 lg:h-112 py-8 lg:py-0"
         >
-          <div className="absolute top-0 left-0 right-0 h-px bg-white/10" />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10" />
-          <div className="absolute left-0 top-0 bottom-0 w-px bg-white/10" />
-          <div className="absolute right-0 top-0 bottom-0 w-px bg-white/10" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-foreground/10" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-foreground/10" />
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-foreground/10" />
+          <div className="absolute right-0 top-0 bottom-0 w-px bg-foreground/10" />
 
-          <div className="absolute -left-0.75 -top-0.75 w-1.5 h-1.5 bg-white" />
-          <div className="absolute -right-0.75 -top-0.75 w-1.5 h-1.5 bg-white" />
-          <div className="absolute -left-0.75 -bottom-0.75 w-1.5 h-1.5 bg-white" />
-          <div className="absolute -right-0.75 -bottom-0.75 w-1.5 h-1.5 bg-white" />
+          <div className="absolute -left-0.75 -top-0.75 w-1.5 h-1.5 bg-foreground" />
+          <div className="absolute -right-0.75 -top-0.75 w-1.5 h-1.5 bg-foreground" />
+          <div className="absolute -left-0.75 -bottom-0.75 w-1.5 h-1.5 bg-foreground" />
+          <div className="absolute -right-0.75 -bottom-0.75 w-1.5 h-1.5 bg-foreground" />
 
-          <div className="absolute top-0 right-full h-px bg-white/10 w-screen" />
-          <div className="absolute top-0 left-full h-px bg-white/10 w-screen" />
-          <div className="absolute bottom-0 right-full h-px bg-white/10 w-screen" />
-          <div className="absolute bottom-0 left-full h-px bg-white/10 w-screen" />
+          <div className="absolute top-0 right-full h-px bg-foreground/10 w-screen" />
+          <div className="absolute top-0 left-full h-px bg-foreground/10 w-screen" />
+          <div className="absolute bottom-0 right-full h-px bg-foreground/10 w-screen" />
+          <div className="absolute bottom-0 left-full h-px bg-foreground/10 w-screen" />
 
-          <div className="absolute left-0 bottom-full w-px bg-white/10 h-screen" />
-          <div className="absolute left-0 top-full w-px bg-white/10 h-screen" />
-          <div className="absolute right-0 bottom-full w-px bg-white/10 h-screen" />
-          <div className="absolute right-0 top-full w-px bg-white/10 h-screen" />
+          <div className="absolute left-0 bottom-full w-px bg-foreground/10 h-screen" />
+          <div className="absolute left-0 top-full w-px bg-foreground/10 h-screen" />
+          <div className="absolute right-0 bottom-full w-px bg-foreground/10 h-screen" />
+          <div className="absolute right-0 top-full w-px bg-foreground/10 h-screen" />
 
           <div className="relative w-full h-full flex flex-col items-start lg:items-center justify-center pointer-events-auto px-4 lg:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3, ease }}
-              className="cursor-pointer flex items-center gap-2 pl-4 pr-3 py-1.5 bg-white rounded-full mb-6"
+              className="cursor-pointer flex items-center gap-2 pl-4 pr-3 py-1.5 bg-foreground rounded-full mb-6"
             >
-              <span className="text-xs font-medium text-black">Payday, every second.</span>
-              <ChevronRight className="w-3 h-3 text-black/50" />
+              <span className="text-xs font-medium text-background">Payday, every second.</span>
+              <ChevronRight className="w-3 h-3 text-background/50" />
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease }}
-              className="text-4xl sm:text-5xl md:text-6xl font-medium font-serif text-white text-left lg:text-center leading-tighter tracking-tight max-w-3xl"
+              className="text-4xl sm:text-5xl md:text-6xl font-medium font-serif text-foreground text-left lg:text-center leading-tighter tracking-tight max-w-3xl"
             >
               Payday,<br/> every day
             </motion.h1>
@@ -315,7 +315,7 @@ export function Hero(): ReactNode {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7, ease }}
-              className="mt-5 text-lg text-white/70 text-left lg:text-center max-w-xl"
+              className="mt-5 text-lg text-foreground/70 text-left lg:text-center max-w-xl"
             >
               Puddl3 streams wages to your team in real time. No paydays, no waiting — money that moves the moment work happens.
             </motion.p>
@@ -329,11 +329,11 @@ export function Hero(): ReactNode {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="h-12 w-full lg:w-72 px-5 text-sm bg-transparent border border-white/20 rounded-full text-white placeholder:text-white/50 focus:outline-none focus:border-white/40"
+                className="h-12 w-full lg:w-72 px-5 text-sm bg-transparent border border-foreground/20 rounded-full text-foreground placeholder:text-foreground/50 focus:outline-none focus:border-foreground/40"
               />
               <button
                 type="button"
-                className="cursor-pointer h-12 px-6 text-sm font-medium bg-white text-black rounded-full hover:bg-white/90 active:scale-[0.97] transition-all duration-150 flex items-center justify-center gap-2 whitespace-nowrap"
+                className="cursor-pointer h-12 px-6 text-sm font-medium bg-foreground text-background rounded-full hover:bg-foreground/90 active:scale-[0.97] transition-all duration-150 flex items-center justify-center gap-2 whitespace-nowrap"
               >
                 Get Started
               </button>
@@ -343,7 +343,7 @@ export function Hero(): ReactNode {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.1, ease }}
-              className="flex items-center gap-2 mt-6 text-sm text-white/60"
+              className="flex items-center gap-2 mt-6 text-sm text-foreground/60"
             >
               <Shield className="w-4 h-4" />
               No paydays. No waiting. No cost to employers.
