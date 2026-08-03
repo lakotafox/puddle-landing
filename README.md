@@ -1,59 +1,87 @@
-# Puddle - Real-Time Wage Streaming Platform
+# Puddl3 — marketing site
 
-## Prerequisites
+**Puddl3 is instant payroll. Workers get their money as they earn it, instead of
+waiting for a pay cycle.**
 
-- **Node.js 18+** — download from https://nodejs.org
-- This is a Next.js app. It will NOT work with VS Code Live Server.
+Live at **[puddl3.xyz](https://puddl3.xyz)**.
 
-## Quick Start
+> **This repo is the marketing site only.** It's a static Next.js site with no
+> backend, no auth, and no product code in it. The actual application — employer
+> dashboard, worker app, payroll engine — lives in separate private repos. If
+> you came here looking for the product, this isn't it.
 
-```bash
-# 1. Clone the repo
-git clone https://github.com/lakotafox/puddle-app.git
-cd puddle-app
+Puddl3 is **pre-launch**. The site is live; the product is in testing.
 
-# 2. Install dependencies
-npm install
-
-# 3. Create your env file
-cp .env.example .env.local
-
-# 4. Edit .env.local — add the Clerk keys (ask the team for these)
-
-# 5. Start the app
-npm run dev
-```
-
-Then open **http://localhost:3000** in your browser.
-
-## Environment Variables
-
-Create a `.env.local` file with:
-
-```
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_ASK_TEAM
-CLERK_SECRET_KEY=sk_test_ASK_TEAM
-
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
-NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/dashboard
-```
-
-## What's In Here
-
-- **Landing page** — Puddle branding, dark theme
-- **Auth** — Clerk (sign up / sign in)
-- **Banking dashboard** — Unit white-label app (sandbox demo data)
-- **Wage streaming** — real-time clock in/out with live wage counter
+---
 
 ## Stack
 
-- Next.js 15 + React 19
-- Tailwind CSS + shadcn/ui
-- Clerk (auth)
-- Unit (banking-as-a-service)
+- **Next.js 15** (App Router) + **React 19**
+- **Tailwind CSS v4**
+- **three** / **@react-three/fiber** — WebGL hero
+- **GSAP**, **motion**, **Lenis** — animation and smooth scroll
+- **next-themes** — light/dark
 
-## Backend
+No API calls, no environment variables, no database. Builds to static output and
+deploys to Netlify.
 
-The backend lives in a separate repo on Bitbucket (`puddl3_app/puddl3_backend`). FastAPI (Python) handles company/employee accounts with the same Clerk auth.
+## Running it
+
+Needs Node 18+.
+
+```bash
+git clone https://github.com/lakotafox/puddle-landing.git
+cd puddle-landing
+npm install
+npm run dev
+```
+
+Then open http://localhost:3000.
+
+Note that `.npmrc` sets `legacy-peer-deps=true`. It's required — a leftover from
+the shadcn/v0 scaffolding this was built on. Removing it breaks `npm install`.
+
+## Structure
+
+```
+app/            layout, page, globals.css
+components/
+  agency/       design A — WebGL hero, water-ripple bubbles
+  finance/      design B — aurora shader, sectioned layout
+  landing-switcher.tsx
+lib/
+public/
+```
+
+## Two designs
+
+The site ships with two complete designs and a toggle between them, currently a
+pill in the bottom-left. It's a live A/B comparison rather than leftover
+scaffolding — both are fully built and carry the same content. The choice
+persists in `localStorage`.
+
+Each design scopes its own palette on a wrapper class (`.theme-agency`,
+`.theme-finance`) in `globals.css`, because both style themselves off the same
+CSS variable names. Those palettes have to live in CSS rather than as inline
+styles on the wrapper, so that the `.dark` branch can override them — inline
+styles would win and the light/dark toggle would silently do nothing.
+
+## A note on the copy
+
+Some sections that shipped with the underlying template were deliberately left
+out: a client-logo wall, pricing tiers, and a blog. Puddl3 has no customers yet,
+no published pricing and no blog, and the only way to fill those would have been
+to invent them. The one testimonial on the site is real and labelled as an early
+pilot.
+
+If you're adding sections, please hold to that.
+
+## Team
+
+- **Lakota** — frontend
+- **Eli** — backend
+- **Connor** — business
+
+## License
+
+No license — all rights reserved.
