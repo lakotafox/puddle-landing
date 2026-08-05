@@ -126,6 +126,35 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Theme-change wipe.
+
+   The toggle drives a circular clip-path expanding from the button. Chrome's
+   default view transition also cross-fades the two snapshots, which muddies
+   the wipe into a dissolve — so both animations are disabled here and only the
+   clip-path drives the change. The new snapshot sits on top so the wipe reveals
+   it over the old one.
+--------------------------------------------------------------------------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Landing palettes.
 
    Both designs style themselves off the same six token names, so each scopes

@@ -55,60 +55,122 @@ function FinanceLanding(): ReactNode {
   );
 }
 
+/**
+ * Theme toggle — the ripple mark from the logo, and the theme change spreads
+ * out from it as a circular wipe rather than cutting over.
+ *
+ * The mark is a droplet above two rings, so the button *is* the point a ripple
+ * starts; the wipe is that ripple crossing the page. No sun, no moon, no label.
+ * Same View Transitions technique the webapp's toggle uses.
+ */
 function ThemeToggle(): ReactNode {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [hover, setHover] = useState(false);
 
   // The server can't know the stored theme, so render nothing until mount —
-  // otherwise the icon flashes the wrong state on load.
+  // otherwise the mark flashes the wrong state on load.
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
   const isDark = resolvedTheme === "dark";
-  // This sits outside the theme wrapper, so it can't read --ring/--background
-  // (it would pick up the base greyscale palette off :root). It carries the
-  // brand colour directly: cyan on dark ground, the darkened hue on light.
+  // Sits outside the theme wrapper, so it can't read --ring/--background (it
+  // would pick up the base greyscale palette off :root). Carries the brand
+  // colour directly: cyan on dark ground, the darkened hue on light.
   const brand = isDark ? "#2FD8E8" : "#0B7A88";
+
+  const toggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const next = isDark ? "light" : "dark";
+    const apply = () => setTheme(next);
+
+    const doc = document as Document & {
+      startViewTransition?: (cb: () => void) => { ready: Promise<void> };
+    };
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // No View Transitions support (Firefox, older Safari) or reduced motion —
+    // switch instantly rather than half-animating.
+    if (!doc.startViewTransition || reduced) {
+      apply();
+      return;
+    }
+
+    // Emanate from the button itself, and reach the furthest corner.
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const r = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    doc
+      .startViewTransition(apply)
+      .ready.then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${r}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 780,
+            easing: "cubic-bezier(0.32, 0, 0.15, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          }
+        );
+      })
+      .catch(() => {});
+  };
 
   return (
     <button
       type="button"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={toggle}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       style={{
         position: "fixed",
-        bottom: "1rem",
-        left: "1rem",
+        bottom: "1.25rem",
+        left: "1.25rem",
         zIndex: 9999,
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "0.5rem",
-        padding: "0.45rem 0.7rem",
+        width: 42,
+        height: 42,
+        display: "grid",
+        placeItems: "center",
+        padding: 0,
         borderRadius: 999,
-        border: `1px solid ${isDark ? "rgba(47,216,232,0.45)" : "rgba(11,122,136,0.4)"}`,
-        background: isDark ? "rgba(7,11,24,0.72)" : "rgba(255,255,255,0.8)",
+        border: `1px solid ${isDark ? "rgba(47,216,232,0.28)" : "rgba(11,122,136,0.26)"}`,
+        background: isDark ? "rgba(7,11,24,0.6)" : "rgba(255,255,255,0.7)",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         color: brand,
-        fontSize: "0.72rem",
-        fontWeight: 700,
-        letterSpacing: "0.12em",
-        textTransform: "uppercase",
         cursor: "pointer",
-        lineHeight: 1,
+        transition: "border-color 220ms ease, background 220ms ease",
       }}
     >
-      {isDark ? (
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-        </svg>
-      ) : (
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-        </svg>
-      )}
-      {isDark ? "Light" : "Dark"}
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        {/* droplet — solid in dark, hollow in light, so the state reads at a glance */}
+        <path
+          d="M12 3.2c2.6 3.1 4.3 5.4 4.3 7.4a4.3 4.3 0 0 1-8.6 0c0-2 1.7-4.3 4.3-7.4z"
+          fill={isDark ? brand : "none"}
+          stroke={brand}
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+        {/* two ripple rings — they widen on hover, previewing the wipe */}
+        <ellipse
+          cx="12" cy="17.6" rx={hover ? 6.6 : 5.4} ry={hover ? 2.5 : 2}
+          stroke={brand} strokeWidth="1.4" opacity="0.85"
+          style={{ transition: "all 260ms cubic-bezier(0.32,0,0.15,1)" }}
+        />
+        <ellipse
+          cx="12" cy="17.6" rx={hover ? 10.4 : 8.6} ry={hover ? 3.9 : 3.2}
+          stroke={brand} strokeWidth="1.1" opacity={hover ? 0.5 : 0.35}
+          style={{ transition: "all 320ms cubic-bezier(0.32,0,0.15,1)" }}
+        />
+      </svg>
     </button>
   );
 }
