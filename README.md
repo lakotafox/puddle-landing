@@ -53,18 +53,25 @@ lib/
 public/
 ```
 
-## Two designs
+## Two designs, one shipping
 
-The site ships with two complete designs and a toggle between them, currently a
-pill in the bottom-left. It's a live A/B comparison rather than leftover
-scaffolding — both are fully built and carry the same content. The choice
-persists in `localStorage`.
+There are two complete designs in here. **Design B (`components/finance`) is
+what's live.** Design A (`components/agency`) is fully built and still in the
+repo, but isn't wired up — it was the original direction, kept for reference.
 
-Each design scopes its own palette on a wrapper class (`.theme-agency`,
-`.theme-finance`) in `globals.css`, because both style themselves off the same
-CSS variable names. Those palettes have to live in CSS rather than as inline
-styles on the wrapper, so that the `.dark` branch can override them — inline
-styles would win and the light/dark toggle would silently do nothing.
+To switch back, import its pieces in `components/landing-switcher.tsx` the way
+`FinanceLanding` does and render that instead. Its palette is already defined in
+`globals.css`, so nothing else needs touching.
+
+Each design scopes its palette on a wrapper class (`.theme-agency`,
+`.theme-finance`) rather than setting the variables globally, because both style
+themselves off the same CSS variable names. Those palettes have to live in CSS
+rather than as inline styles on the wrapper, so the `.dark` branch can override
+them — inline styles would win and the light/dark toggle would silently do
+nothing.
+
+Leaving Design A unimported also keeps its WebGL hero out of the bundle, which
+is worth about 260 kB.
 
 ## A note on the copy
 
