@@ -25,7 +25,6 @@ import { FeatureCards } from "@/components/finance/feature-cards";
 import { FeatureHighlight } from "@/components/finance/feature-highlight";
 import { Principles } from "@/components/finance/principles";
 import { Stats } from "@/components/finance/stats";
-import { TestimonialsSlider } from "@/components/finance/testimonials-slider";
 import { FAQ as FinanceFaq } from "@/components/finance/faq";
 import { FinalCTA } from "@/components/finance/final-cta";
 import { Footer as FinanceFooter } from "@/components/finance/footer";
@@ -35,17 +34,17 @@ function FinanceLanding(): ReactNode {
     <FinanceProviders>
       <div className="theme-finance bg-background text-foreground">
         <FinanceHeader />
-        {/* The template's TrustedBy (client logos), Pricing (tiers) and blog
-            sections are deliberately left out: Puddl3 has no customers, no
-            published pricing and no blog, and the only honest way to fill them
-            would be to invent them. */}
+        {/* The template's TrustedBy (client logos), Pricing (tiers), blog and
+            testimonials sections are deliberately left out: Puddl3 has no
+            customers, no pilot employer, no published pricing and no blog, and
+            the only honest way to fill them would be to invent them. Don't add
+            them back without something real to put in. */}
         <main id="main-content" className="flex-1 bg-background">
           <FinanceHero />
           <FeatureCards />
           <FeatureHighlight />
           <Principles />
           <Stats />
-          <TestimonialsSlider />
           <FinanceFaq />
           <FinalCTA />
         </main>

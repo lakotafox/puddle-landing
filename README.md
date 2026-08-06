@@ -76,12 +76,12 @@ is worth about 260 kB.
 ## A note on the copy
 
 Some sections that shipped with the underlying template were deliberately left
-out: a client-logo wall, pricing tiers, and a blog. Puddl3 has no customers yet,
-no published pricing and no blog, and the only way to fill those would have been
-to invent them. The one testimonial on the site is real and labelled as an early
-pilot.
+out: a client-logo wall, pricing tiers, a blog, and testimonials. Puddl3 has no
+customers yet, no pilot employer, no published pricing and no blog — the only
+way to fill any of those would have been to invent them.
 
-If you're adding sections, please hold to that.
+If you're adding sections, please hold to that. Nothing on this site should
+claim a customer, a quote or a number that doesn't exist.
 
 ## Team
 

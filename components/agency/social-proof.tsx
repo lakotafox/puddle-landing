@@ -148,19 +148,23 @@ export function SocialProof() {
             </div>
           </div>
 
+          {/* This tile held a testimonial from an "early pilot". There is no
+              pilot employer, so it was removed rather than reworded. Don't put
+              a quote back here without a real person who said it. */}
           <div className="lg:col-span-2 row-span-2 bg-muted/50 rounded-2xl p-8 flex flex-col">
             <div>
               <QuoteIcon className="w-10 h-10 text-foreground/20 mb-6" />
               <blockquote className="text-2xl lg:text-3xl font-medium leading-snug text-foreground">
-                My crew watches their pay grow while they&apos;re still on the clock. Nobody asks me for an advance anymore — the money is just there.
+                Payday shouldn&apos;t make people wait. Money should move like they do.
               </blockquote>
               <div className="mt-6">
-                <p className="font-semibold text-foreground">Shift Manager</p>
-                <p className="text-sm text-foreground/60">Hourly crew of 12</p>
+                <p className="text-sm text-foreground/60">
+                  Wages accrue by the second and land the moment they&apos;re earned — no pay cycle, no advances, no waiting.
+                </p>
               </div>
             </div>
             <div className="flex items-center justify-between mt-auto pt-8">
-              <span className="text-xl font-semibold text-foreground">early pilot</span>
+              <span className="text-xl font-semibold text-foreground">why we built it</span>
               <CtaArrow />
             </div>
           </div>

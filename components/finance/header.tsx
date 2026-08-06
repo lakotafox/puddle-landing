@@ -11,7 +11,6 @@ type NavItem = {
 const navLinks: NavItem[] = [
   { label: "How it works", href: "#how-it-works" },
   { label: "Why Puddl3", href: "#why" },
-  { label: "Reviews", href: "#reviews" },
   { label: "FAQ", href: "#faq" },
 ];
 
