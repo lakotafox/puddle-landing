@@ -3,6 +3,7 @@
 import { type ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
+import { useContactCard } from "@/components/finance/contact-card";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -66,6 +67,7 @@ function AvatarStack(): ReactNode {
 }
 
 function PricingCard({ plan, index }: { plan: PricingPlan; index: number }): ReactNode {
+  const { open: openContact } = useContactCard();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -92,9 +94,10 @@ function PricingCard({ plan, index }: { plan: PricingPlan; index: number }): Rea
         {plan.description}
       </p>
       <div className="flex flex-col gap-3 mb-8">
-        <a
-          href="#"
-          className={`group inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
+        <button
+          type="button"
+          onClick={openContact}
+          className={`group cursor-pointer inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
             plan.featured
               ? "bg-foreground text-background hover:bg-foreground/90"
               : "bg-transparent border border-border text-foreground hover:bg-muted"
@@ -102,7 +105,7 @@ function PricingCard({ plan, index }: { plan: PricingPlan; index: number }): Rea
         >
           {plan.cta}
           <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-        </a>
+        </button>
         {plan.ctaSecondary && (
           <a
             href="#"

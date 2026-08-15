@@ -13,7 +13,7 @@ const features = [
   },
   {
     icon: <Zap className="w-4 h-4" />,
-    text: "Cash out any hour of the day. No pay-cycle math.",
+    text: "Money lands any hour of the day. No pay-cycle math.",
   },
   {
     icon: <MessageSquare className="w-4 h-4" />,

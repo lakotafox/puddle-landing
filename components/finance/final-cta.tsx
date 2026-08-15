@@ -4,6 +4,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { useTheme } from "next-themes";
 import { motion } from "motion/react";
 import * as THREE from "three";
+import { useContactCard } from "@/components/finance/contact-card";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -162,6 +163,7 @@ export function FinalCTA(): ReactNode {
   const frameIdRef = useRef<number>(0);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const { open: openContact } = useContactCard();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -258,12 +260,13 @@ export function FinalCTA(): ReactNode {
           transition={{ duration: 0.5, delay: 0.2, ease }}
           className="mt-10"
         >
-          <a
-            href="#"
-            className="inline-flex items-center px-8 py-4 bg-foreground text-background rounded-full text-sm font-medium hover:bg-foreground/90 active:scale-[0.97] transition-all duration-150"
+          <button
+            type="button"
+            onClick={openContact}
+            className="cursor-pointer inline-flex items-center px-8 py-4 bg-foreground text-background rounded-full text-sm font-medium hover:bg-foreground/90 active:scale-[0.97] transition-all duration-150"
           >
             Get Started
-          </a>
+          </button>
         </motion.div>
       </div>
     </section>

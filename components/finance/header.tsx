@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useState, type ReactNode } from "react";
+import { useContactCard } from "@/components/finance/contact-card";
 
 type NavItem = {
   label: string;
@@ -49,6 +50,7 @@ function HamburgerIcon({
 
 export function Header(): ReactNode {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { open: openContact } = useContactCard();
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
@@ -109,18 +111,15 @@ export function Header(): ReactNode {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3, ease }}
           >
-            <a
-              href="#"
-              className="px-5 py-2.5 text-sm font-semibold tracking-tighter text-black bg-white rounded-full hover:bg-white/90 transition-colors"
+            {/* No "Sign in" — there is no public product to sign in to yet, and
+                offering one sends visitors to a dead end. */}
+            <button
+              type="button"
+              onClick={openContact}
+              className="cursor-pointer px-5 py-2.5 text-sm font-semibold tracking-tighter text-black bg-white rounded-full hover:bg-white/90 transition-colors"
             >
               Get Started
-            </a>
-            <a
-              href="#"
-              className="px-5 py-2.5 text-sm font-semibold tracking-tighter text-white border border-white rounded-full hover:bg-white/10 transition-colors"
-            >
-              Sign in
-            </a>
+            </button>
           </motion.div>
         </div>
       </header>
@@ -204,20 +203,16 @@ export function Header(): ReactNode {
               ))}
 
               <div className="flex flex-col gap-3 pt-6">
-                <a
-                  href="#"
-                  className="w-full py-3 text-center text-sm font-medium tracking-tight text-background bg-foreground rounded-full hover:bg-foreground/90 transition-colors"
-                  onClick={closeMobileMenu}
+                <button
+                  type="button"
+                  className="w-full cursor-pointer py-3 text-center text-sm font-medium tracking-tight text-background bg-foreground rounded-full hover:bg-foreground/90 transition-colors"
+                  onClick={() => {
+                    closeMobileMenu();
+                    openContact();
+                  }}
                 >
                   Get Started
-                </a>
-                <a
-                  href="#"
-                  className="w-full py-3 text-center text-sm font-medium tracking-tight text-foreground border border-border rounded-full hover:bg-muted transition-colors"
-                  onClick={closeMobileMenu}
-                >
-                  Sign in
-                </a>
+                </button>
               </div>
             </nav>
           </motion.div>

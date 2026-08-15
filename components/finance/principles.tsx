@@ -34,9 +34,9 @@ const principles: PrincipleCard[] = [
   },
   {
     icon: <CreditCard className="w-12 h-12" strokeWidth={1} />,
-    label: "Flexible Payouts",
+    label: "Instant Payouts",
     description:
-      "Cash out mid-shift, after work, or let it build. It's the worker's call.",
+      "Spend it mid-shift, spend it after work, or let it build. It's the worker's call.",
   },
   {
     icon: <BarChart3 className="w-12 h-12" strokeWidth={1} />,

@@ -29,9 +29,9 @@ const features: FeatureCard[] = [
     visual: "chart",
   },
   {
-    title: "Cash out Anytime",
+    title: "Money Lands Instantly",
     description:
-      "Tap to take home what's already earned — any hour, any day. Payday stops being a date on the calendar.",
+      "Pay arrives the moment the work does — any hour, any day. Payday stops being a date on the calendar.",
     href: "#",
     visual: "code",
   },
@@ -108,7 +108,7 @@ function ChartVisual(): ReactNode {
 
 function CodeVisual(): ReactNode {
   const codeLines = [
-    { text: "cash out", style: "text-muted-foreground" },
+    { text: "money lands", style: "text-muted-foreground" },
     { text: "  6:04 AM   before the shift", style: "text-accent" },
     { text: "  11:20 AM  on a break", style: "text-accent" },
     { text: "  2:47 PM   mid-shift", style: "text-accent" },

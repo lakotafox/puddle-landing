@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1314" width="900" height="1314" fill="none">
+  <defs>
+    <!-- Brand cyan washing up from the lower right, into near-black at top left -->
+    <linearGradient id="face" x1="900" y1="1314" x2="60" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8FF2FA"/>
+      <stop offset="0.28" stop-color="#2FD8E8"/>
+      <stop offset="0.62" stop-color="#0E5F76"/>
+      <stop offset="1" stop-color="#04070E"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F2F5F7"/>
+      <stop offset="1" stop-color="#C3CBD1"/>
+    </linearGradient>
+    <clipPath id="card">
+      <rect width="900" height="1314" rx="64"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#card)">
+    <rect width="900" height="1314" rx="64" fill="url(#face)"/>
+
+    <!-- Droplet + two ripple rings, echoing the logo mark. Sized as a proper
+         watermark: at the previous 3.6x it was ~86px on a 900px-wide card and
+         read as a speck. Stroke widths are divided by the scale so they stay
+         hairline-thin rather than scaling into slabs. -->
+    <g opacity="0.26" transform="translate(450 615) scale(15) translate(-12 -12)">
+      <path d="M12 3.2c2.6 3.1 4.3 5.4 4.3 7.4a4.3 4.3 0 0 1-8.6 0c0-2 1.7-4.3 4.3-7.4z"
+            fill="#FFFFFF"/>
+      <ellipse cx="12" cy="17.6" rx="5.4" ry="2" stroke="#FFFFFF" stroke-width="0.36" fill="none"/>
+      <ellipse cx="12" cy="17.6" rx="8.6" ry="3.2" stroke="#FFFFFF" stroke-width="0.3"
+               fill="none" opacity="0.6"/>
+    </g>
+
+    <!-- EMV chip -->
+    <g transform="translate(672 96)">
+      <rect width="110" height="86" rx="14" fill="url(#chip)"/>
+      <g stroke="#96A0A8" stroke-width="4" opacity="0.85">
+        <path d="M0 30 H32 M0 56 H32 M78 30 H110 M78 56 H110"/>
+        <rect x="32" y="14" width="46" height="58" rx="7" fill="none"/>
+        <path d="M55 0 V14 M55 72 V86"/>
+      </g>
+    </g>
+
+    <!-- Wordmark -->
+    <text x="76" y="1215" fill="#FFFFFF"
+          font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
+          font-size="104" font-weight="500" letter-spacing="-1">Puddl3</text>
+
+    <!-- Inner hairline, the way a real card catches light on its bevel -->
+    <rect x="1.5" y="1.5" width="897" height="1311" rx="62.5"
+          stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="3" fill="none"/>
+  </g>
+</svg>

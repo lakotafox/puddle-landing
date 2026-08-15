@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "puddl3-components": {
+      "type": "stdio",
+      "command": "/Users/khabefox/.bun/bin/bun",
+      "args": [
+        "run",
+        "/Users/khabefox/foxbits/src/mcp/server.ts"
+      ],
+      "env": {}
+    }
+  }
+}

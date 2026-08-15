@@ -22,16 +22,19 @@ import { Providers as FinanceProviders } from "@/components/finance/providers";
 import { Header as FinanceHeader } from "@/components/finance/header";
 import { Hero as FinanceHero } from "@/components/finance/hero";
 import { FeatureCards } from "@/components/finance/feature-cards";
+import { WaterCard } from "@/components/finance/water-card";
 import { FeatureHighlight } from "@/components/finance/feature-highlight";
 import { Principles } from "@/components/finance/principles";
 import { Stats } from "@/components/finance/stats";
 import { FAQ as FinanceFaq } from "@/components/finance/faq";
 import { FinalCTA } from "@/components/finance/final-cta";
 import { Footer as FinanceFooter } from "@/components/finance/footer";
+import { ContactCardProvider } from "@/components/finance/contact-card";
 
 function FinanceLanding(): ReactNode {
   return (
     <FinanceProviders>
+      <ContactCardProvider>
       <div className="theme-finance bg-background text-foreground">
         <FinanceHeader />
         {/* The template's TrustedBy (client logos), Pricing (tiers), blog and
@@ -42,6 +45,7 @@ function FinanceLanding(): ReactNode {
         <main id="main-content" className="flex-1 bg-background">
           <FinanceHero />
           <FeatureCards />
+          <WaterCard />
           <FeatureHighlight />
           <Principles />
           <Stats />
@@ -50,17 +54,20 @@ function FinanceLanding(): ReactNode {
         </main>
         <FinanceFooter />
       </div>
+      </ContactCardProvider>
     </FinanceProviders>
   );
 }
 
 /**
- * Theme toggle — the ripple mark from the logo, and the theme change spreads
- * out from it as a circular wipe rather than cutting over.
+ * Theme toggle — sun and moon, and the theme change spreads out from the button
+ * as a circular wipe rather than cutting over.
  *
- * The mark is a droplet above two rings, so the button *is* the point a ripple
- * starts; the wipe is that ripple crossing the page. No sun, no moon, no label.
- * Same View Transitions technique the webapp's toggle uses.
+ * The mark shows the *current* theme: a moon in dark, a sun in light. The
+ * earlier droplet-and-ripples mark tied into the brand but read as "water", not
+ * "light/dark", and its solid-vs-hollow state cue was too subtle to catch. The
+ * ripple stays where it belongs — in the wipe, which still emanates from this
+ * button. Same View Transitions technique the webapp's toggle uses.
  */
 function ThemeToggle(): ReactNode {
   const { resolvedTheme, setTheme } = useTheme();
@@ -150,25 +157,39 @@ function ThemeToggle(): ReactNode {
       }}
     >
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        {/* droplet — solid in dark, hollow in light, so the state reads at a glance */}
-        <path
-          d="M12 3.2c2.6 3.1 4.3 5.4 4.3 7.4a4.3 4.3 0 0 1-8.6 0c0-2 1.7-4.3 4.3-7.4z"
-          fill={isDark ? brand : "none"}
-          stroke={brand}
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-        {/* two ripple rings — they widen on hover, previewing the wipe */}
-        <ellipse
-          cx="12" cy="17.6" rx={hover ? 6.6 : 5.4} ry={hover ? 2.5 : 2}
-          stroke={brand} strokeWidth="1.4" opacity="0.85"
-          style={{ transition: "all 260ms cubic-bezier(0.32,0,0.15,1)" }}
-        />
-        <ellipse
-          cx="12" cy="17.6" rx={hover ? 10.4 : 8.6} ry={hover ? 3.9 : 3.2}
-          stroke={brand} strokeWidth="1.1" opacity={hover ? 0.5 : 0.35}
-          style={{ transition: "all 320ms cubic-bezier(0.32,0,0.15,1)" }}
-        />
+        {isDark ? (
+          /* moon — we're in dark mode. Crescent cut with a mask so the shape
+             stays clean at 19px instead of relying on a hairline stroke. */
+          <>
+            <defs>
+              <mask id="puddl3-moon-mask">
+                <rect width="24" height="24" fill="#fff" />
+                <circle cx={hover ? 16.4 : 15.8} cy="8.6" r="7.4" fill="#000"
+                  style={{ transition: "all 300ms cubic-bezier(0.32,0,0.15,1)" }} />
+              </mask>
+            </defs>
+            <circle cx="12" cy="12" r="7.4" fill={brand} mask="url(#puddl3-moon-mask)" />
+          </>
+        ) : (
+          /* sun — we're in light mode. Rays reach out on hover, previewing the wipe. */
+          <>
+            <circle cx="12" cy="12" r="4.3" fill={brand} />
+            {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+              <line
+                key={deg}
+                x1="12"
+                y1={hover ? 5.0 : 5.6}
+                x2="12"
+                y2={hover ? 2.2 : 3.0}
+                stroke={brand}
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                transform={`rotate(${deg} 12 12)`}
+                style={{ transition: "all 300ms cubic-bezier(0.32,0,0.15,1)" }}
+              />
+            ))}
+          </>
+        )}
       </svg>
     </button>
   );

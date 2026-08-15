@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { ChevronRight, Shield } from "lucide-react";
 import { motion } from "motion/react";
 import * as THREE from "three";
+import { useContactCard } from "@/components/finance/contact-card";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -180,6 +181,7 @@ export function Hero(): ReactNode {
   const frameIdRef = useRef<number>(0);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme !== "light";
+  const { open: openContact } = useContactCard();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -326,13 +328,12 @@ export function Hero(): ReactNode {
               transition={{ duration: 0.6, delay: 0.9, ease }}
               className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 mt-10 w-full lg:w-auto"
             >
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="h-12 w-full lg:w-72 px-5 text-sm bg-transparent border border-foreground/20 rounded-full text-foreground placeholder:text-foreground/50 focus:outline-none focus:border-foreground/40"
-              />
+              {/* The email box that used to sit here went nowhere — there is no
+                  list to collect into yet, so it took an address and dropped it.
+                  Sending people to a human is more honest pre-launch. */}
               <button
                 type="button"
+                onClick={openContact}
                 className="cursor-pointer h-12 px-6 text-sm font-medium bg-foreground text-background rounded-full hover:bg-foreground/90 active:scale-[0.97] transition-all duration-150 flex items-center justify-center gap-2 whitespace-nowrap"
               >
                 Get Started

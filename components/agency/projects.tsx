@@ -78,7 +78,7 @@ interface Project {
 const projects: Project[] = [
   { id: "1", titleUp: "Clock", titleDown: "In", image: "/img/puddle-1.webp", description: "The moment your team starts a shift, their pay starts adding up — second by second, in plain sight." },
   { id: "2", titleUp: "Watch it", titleDown: "Grow", image: "/img/puddle-2.webp", description: "Earnings climb in real time, visible to worker and employer alike. No mystery, no month-end surprises." },
-  { id: "3", titleUp: "Cash out", titleDown: "Anytime", image: "/img/puddle-3.webp", description: "Tap to take home what's already earned — any hour, any day. Payday stops being a date on the calendar." },
+  { id: "3", titleUp: "Money", titleDown: "Lands Instantly", image: "/img/puddle-3.webp", description: "Pay arrives the moment the work does — any hour, any day. Payday stops being a date on the calendar." },
 ];
 
 function ProjectItem({ project, index }: { project: Project; index: number }) {

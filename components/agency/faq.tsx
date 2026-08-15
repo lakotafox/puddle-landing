@@ -15,7 +15,7 @@ const faqs = [
   },
   {
     question: "When can workers actually get their money?",
-    answer: "Any time. There's no payday and no waiting period — earnings are available the moment they're earned. A worker can cash out mid-shift, after work, or let it build up. It's their call.",
+    answer: "Immediately. There's no payday and no waiting period — the money reaches them the moment it's earned. They can spend it mid-shift, after work, or let it build up. It's their call.",
   },
   {
     question: "Does it cost employers anything?",
@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     question: "How hard is it to get started?",
-    answer: "Minutes, not weeks. Create an account, add your team, and start streaming wages. There's nothing for your workers to install to see their earnings grow and cash out.",
+    answer: "Minutes, not weeks. Create an account, add your team, and start streaming wages. There's nothing for your workers to install to watch their earnings grow and arrive.",
   },
 ];
 
